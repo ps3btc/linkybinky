@@ -18,6 +18,19 @@ import twitter
 import urllib2
 import wsgiref.handlers
 
+TWITGOO_QUERY='twitgoo'
+TWITGOO_ADS = [
+    'embed your tweet inside the image you upload http://twimgr.com/about',
+    '140 characters; upload your image to a url of your choice http://twimgr.com/about',
+    'twitter rewards brevity http://twimgr.com/about',
+    'tweet inside an image url? http://twimgr.com/about',
+    '1 love. brevity. be terse. upload image to a url of your choice http://twimgr.com/about',
+    'login with gmail. upload image to a url of your choosing http://twimgr.com/about',
+]
+
+TWITPIC_QUERY='twitpic'
+TWITPIC_ADS = TWITGOO_ADS
+
 PS3_QUERY='ps3'
 PS3_ADS = [
     'if you like ps3+twitter you might (low probability) like http://ps3btc.com #ps3btc :)',
@@ -266,6 +279,10 @@ def do_cron(user, pw, query):
         post(first_user, second_user, api, FUCK_ADS)
       elif query == WTF_QUERY:
         post(first_user, second_user, api, WTF_ADS)
+      elif query == TWITPIC_QUERY:
+        post(first_user, second_user, api, TWITPIC_ADS)
+      elif query == TWITGOO_QUERY:
+        post(first_user, second_user, api, TWITGOO_ADS)
       else:
         logging.error('no users returned')
   except:
@@ -277,6 +294,8 @@ def wrap_cron():
   do_cron('ralasinps3', 'rala123', OMG_QUERY)
   do_cron('salasinps3', 'rala123', FUCK_QUERY)
   do_cron('xalasinps3', 'rala123', WTF_QUERY)
+  do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
+  do_cron('twotgr2', 'rala123', TWITGOO_QUERY)
 
 class Home(webapp.RequestHandler):
   def get(self):
