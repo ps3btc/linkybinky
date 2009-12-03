@@ -231,11 +231,8 @@ def do_cron(user, pw, query):
     send_mail(user, query)
 
 def wrap_cron():
-  do_cron('ps3cakes', 'x167hd8w', PS3_QUERY)
   do_cron('nwhat187', 'x167hd8w', NIGGA_QUERY)
   do_cron('smithlakesha76', 'x167hd8w', NIGGA_QUERY)
-  #do_cron('hotj198056', 'x167hd8w', XBOX_QUERY)
-
 
 class Home(webapp.RequestHandler):
   def get(self):
