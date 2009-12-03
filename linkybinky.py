@@ -58,8 +58,8 @@ FUCK_ADS = [
     'i hate getting hit by a bus http://ps3btc.com/fuck',
     'omg omg omg, so many people saying it all the time http://ps3btc.com/fuck'
     'i wrote all the people saying fcuk RIGHT NOW http://ps3btc.com/fuck',
-    'silly stuff. everyong saying fcuk http://ps3btc.com/fcuk',
-    'who is tweeting the word fuck? http://ps3btc.com/fcuk'
+    'silly stuff. everyong saying fcuk http://ps3btc.com/fuck',
+    'who is tweeting the word fuck? http://ps3btc.com/fuck'
 ]
 
 WTF_QUERY='wtf'
