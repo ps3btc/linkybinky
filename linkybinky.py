@@ -58,7 +58,7 @@ OMG_ADS = [
     'i said omg once and i got hit by a car http://ps3btc.com/omg',
     'does god exist? who knows. http://ps3btc.com/omg',
     'i hate getting hit by a bus http://ps3btc.com/omg',
-    'omg omg omg, so many people saying it all the time http://ps3btc.com/omg'
+    'omg omg omg, so many people saying it all the time http://ps3btc.com/omg',
     'i wrote all the people saying omg RIGHT NOW http://ps3btc.com/omg',
     'silly stuff. everyong saying OMG http://ps3btc.com/omg',
 ]
