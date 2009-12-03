@@ -39,6 +39,41 @@ PS3_ADS = [
     'funny ps3 tweets here. funny husband/wife comments. visit http://ps3btc.com #ps3btc',
     ]
 
+OMG_QUERY='omg'
+OMG_ADS = [
+    'everyone saying omg right not http://ps3btc.com/omg',
+    'i said omg once and i got hit by a car http://ps3btc.com/omg',
+    'does god exist? who knows. http://ps3btc.com/omg',
+    'i hate getting hit by a bus http://ps3btc.com/omg',
+    'omg omg omg, so many people saying it all the time http://ps3btc.com/omg'
+    'i wrote all the people saying omg RIGHT NOW http://ps3btc.com/omg',
+    'silly stuff. everyong saying OMG http://ps3btc.com/omg',
+]
+
+FUCK_QUERY='fuck'
+FUCK_ADS = [
+    'everyone saying fuck right not http://ps3btc.com/fuck',
+    'i said fcuk once and i got hit by a car http://ps3btc.com/fuck',
+    'does god exist? who knows. http://ps3btc.com/fuck',
+    'i hate getting hit by a bus http://ps3btc.com/fuck',
+    'omg omg omg, so many people saying it all the time http://ps3btc.com/fuck'
+    'i wrote all the people saying fcuk RIGHT NOW http://ps3btc.com/fuck',
+    'silly stuff. everyong saying fcuk http://ps3btc.com/fcuk',
+    'who is tweeting the word fuck? http://ps3btc.com/fcuk'
+]
+
+WTF_QUERY='wtf'
+WTF_ADS = [
+    'everyone saying wtf right not http://ps3btc.com/wtf',
+    'i said wtf once and i got hit by a car http://ps3btc.com/wtf',
+    'does god exist? who knows. http://ps3btc.com/wtf',
+    'i hate getting hit by a bus http://ps3btc.com/wtf',
+    'wtf wtf wtf, so many people saying it all the time http://ps3btc.com/wtf'
+    'i wrote all the people saying wtf RIGHT NOW http://ps3btc.com/wtf',
+    'silly stuff. everyong saying wtf http://ps3btc.com/wtf',
+    'who is tweeting the word wtf? http://ps3btc.com/wtf'
+]
+
 XBOX_QUERY='xbox'
 XBOX_ADS = [
     'if you like xbox+twitter you might (low probability) like http://ps3btc.com/xbox',
@@ -225,6 +260,12 @@ def do_cron(user, pw, query):
         post(first_user, second_user, api, XBOX_ADS)
       elif query == NIGGA_QUERY:
         post(first_user, second_user, api, NIGGA_ADS)
+      elif query == OMG_QUERY:
+        post(first_user, second_user, api, OMG_ADS)
+      elif query == FUCK_QUERY:
+        post(first_user, second_user, api, FUCK_ADS)
+      elif query == WTF_QUERY:
+        post(first_user, second_user, api, WTF_ADS)
       else:
         logging.error('no users returned')
   except:
@@ -233,6 +274,9 @@ def do_cron(user, pw, query):
 def wrap_cron():
   do_cron('nwhat187', 'x167hd8w', NIGGA_QUERY)
   do_cron('smithlakesha76', 'x167hd8w', NIGGA_QUERY)
+  do_cron('ralasinps3', 'rala123', OMG_QUERY)
+  do_cron('salasinps3', 'rala123', FUCK_QUERY)
+  do_cron('xalasinps3', 'rala123', WTF_QUERY)
 
 class Home(webapp.RequestHandler):
   def get(self):
