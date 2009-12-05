@@ -31,6 +31,15 @@ TWITGOO_ADS = [
 TWITPIC_QUERY='twitpic'
 TWITPIC_ADS = TWITGOO_ADS
 
+CANCER_QUERY='cancer'
+CANCER_ADS = [
+    'find people tweeting the word cancer with spam removed http://ps3btc.com/cancer',
+    'find real time updates by people on cancer. spam removed. http://ps3btc.com/cancer',
+    'cancer can be hard. fellow cancer tweets with spam removed http://ps3btc.com/cancer',
+    'no spam. all tweets with the word cancer. fight it with friends http://ps3btc.com/cancer',
+    'online, realtime cancer twitter support in 1 place. no spam. http://ps3btc.com/cancer'
+]
+
 PS3_QUERY='ps3'
 PS3_ADS = [
     'if you like ps3+twitter you might (low probability) like http://ps3btc.com #ps3btc :)',
@@ -283,6 +292,8 @@ def do_cron(user, pw, query):
         post(first_user, second_user, api, TWITPIC_ADS)
       elif query == TWITGOO_QUERY:
         post(first_user, second_user, api, TWITGOO_ADS)
+      elif query == CANCER_QUERY:
+        post(first_user, second_user, api, CANCER_ADS)
       else:
         logging.error('no users returned')
   except:
@@ -296,6 +307,8 @@ def wrap_cron():
   do_cron('xalasinps3', 'rala123', WTF_QUERY)
   do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
   do_cron('twotgr2', 'rala123', TWITGOO_QUERY)
+  do_cron('onecnr1', 'rala123', CANCER_QUERY)
+  do_cron('twocnr1', 'rala123', CANCER_QUERY)
 
 class Home(webapp.RequestHandler):
   def get(self):
