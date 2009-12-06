@@ -305,9 +305,9 @@ def wrap_cron():
   do_cron('ralasinps3', 'rala123', OMG_QUERY)
   do_cron('salasinps3', 'rala123', FUCK_QUERY)
   do_cron('xalasinps3', 'rala123', WTF_QUERY)
-  do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
+  #do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
   do_cron('twotgr2', 'rala123', TWITGOO_QUERY)
-  do_cron('onecnr1', 'rala123', CANCER_QUERY)
+  #do_cron('onecnr1', 'rala123', CANCER_QUERY)
   do_cron('twocnr1', 'rala123', CANCER_QUERY)
 
 class Home(webapp.RequestHandler):
