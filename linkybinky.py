@@ -20,12 +20,12 @@ import wsgiref.handlers
 
 TWITGOO_QUERY='twitgoo'
 TWITGOO_ADS = [
-    'embed your tweet inside the image you upload http://twimgr.com/about',
-    '140 characters; upload your image to a url of your choice http://twimgr.com/about',
-    'twitter rewards brevity http://twimgr.com/about',
-    'tweet inside an image url? http://twimgr.com/about',
-    '1 love. brevity. be terse. upload image to a url of your choice http://twimgr.com/about',
-    'login with gmail. upload image to a url of your choosing http://twimgr.com/about',
+    'embed your tweet inside the image you upload http://twimgr.com',
+    '140 characters; upload your image to a url of your choice http://twimgr.com',
+    'twitter rewards brevity http://twimgr.com',
+    'tweet inside an image url? http://twimgr.com',
+    '1 love. brevity. be terse. upload image to a url of your choice http://twimgr.com',
+    'login with gmail. upload image to a url of your choosing http://twimgr.com',
 ]
 
 TWITPIC_QUERY='twitpic'
@@ -302,11 +302,11 @@ def do_cron(user, pw, query):
 def wrap_cron():
   do_cron('nwhat187', 'x167hd8w', NIGGA_QUERY)
   do_cron('smithlakesha76', 'x167hd8w', NIGGA_QUERY)
-  #do_cron('ralasinps3', 'rala123', OMG_QUERY)
   do_cron('salasinps3', 'rala123', FUCK_QUERY)
   do_cron('xalasinps3', 'rala123', WTF_QUERY)
-  #do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
   do_cron('twotgr2', 'rala123', TWITGOO_QUERY)
+  #do_cron('ralasinps3', 'rala123', OMG_QUERY)
+  #do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
   #do_cron('onecnr1', 'rala123', CANCER_QUERY)
   #do_cron('twocnr1', 'rala123', CANCER_QUERY)
 
