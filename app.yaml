@@ -12,9 +12,21 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
-- url: /
+- url: .*
   script: linkybinky.py
+  
+- url: /add
+  script: linkybinky.py
+  login: admin
+  
+- url: /edit
+  script: linkybinky.py
+  login: admin
 
+- url: /items.html
+  script: linkybinky.py
+  login: admin
+  
 - url: /cron
   script: linkybinky.py
   login: admin

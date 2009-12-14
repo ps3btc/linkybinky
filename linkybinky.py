@@ -6,6 +6,9 @@ from django.utils import simplejson
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.api import mail
+from google.appengine.ext import db
+from google.appengine.api import users
+from google.appengine.ext.db import djangoforms
 
 import StringIO
 import logging
@@ -37,7 +40,7 @@ CANCER_ADS = [
     'find real time updates by people on cancer. spam removed. http://ps3btc.com/cancer',
     'cancer can be hard. fellow cancer tweets with spam removed http://ps3btc.com/cancer',
     'no spam. all tweets with the word cancer. fight it with friends http://ps3btc.com/cancer',
-    'online, realtime cancer twitter support in 1 place. no spam. http://ps3btc.com/cancer'
+    'online, realtime cancer twitter support in 1 place. no spam. http://ps3btc.com/cancer',
 ]
 
 PS3_QUERY='ps3'
@@ -78,10 +81,10 @@ FUCK_ADS = [
     'i said fcuk once and i got hit by a car http://ps3btc.com/fuck',
     'does god exist? who knows. http://ps3btc.com/fuck',
     'i hate getting hit by a bus http://ps3btc.com/fuck',
-    'omg omg omg, so many people saying it all the time http://ps3btc.com/fuck'
+    'omg omg omg, so many people saying it all the time http://ps3btc.com/fuck',
     'i wrote all the people saying fcuk RIGHT NOW http://ps3btc.com/fuck',
     'silly stuff. everyong saying fcuk http://ps3btc.com/fuck',
-    'who is tweeting the word fuck? http://ps3btc.com/fuck'
+    'who is tweeting the word fuck? http://ps3btc.com/fuck',
 ]
 
 WTF_QUERY='wtf'
@@ -90,10 +93,10 @@ WTF_ADS = [
     'i said wtf once and i got hit by a car http://ps3btc.com/wtf',
     'does god exist? who knows. http://ps3btc.com/wtf',
     'i hate getting hit by a bus http://ps3btc.com/wtf',
-    'wtf wtf wtf, so many people saying it all the time http://ps3btc.com/wtf'
+    'wtf wtf wtf, so many people saying it all the time http://ps3btc.com/wtf',
     'i wrote all the people saying wtf RIGHT NOW http://ps3btc.com/wtf',
     'silly stuff. everyong saying wtf http://ps3btc.com/wtf',
-    'who is tweeting the word wtf? http://ps3btc.com/wtf'
+    'who is tweeting the word wtf? http://ps3btc.com/wtf',
 ]
 
 XBOX_QUERY='xbox'
@@ -259,9 +262,10 @@ def post(first_user, second_user, api, ads):
   return random_ad
 
 def send_mail(user, query):
+  logging.error('problem account account: %s query %s', user, query)
   mail.send_mail(sender="hareesh.nagarajan@gmail.com",
-                 to="hxn <hnagar2@gmail.com>",
-                 subject="problem! %s %s" % (user, query),
+                 to="hxn <hareesh.nagarajan@gmail.com>",
+                 subject="linkybinky ERROR %s %s" % (user, query),
                  body="problem!")
 
 def do_cron(user, pw, query):
@@ -300,11 +304,11 @@ def do_cron(user, pw, query):
     send_mail(user, query)
 
 def wrap_cron():
-  do_cron('nwhat187', 'x167hd8w', NIGGA_QUERY)
+  #do_cron('nwhat187', 'x167hd8w', NIGGA_QUERY)
   do_cron('smithlakesha76', 'x167hd8w', NIGGA_QUERY)
-  do_cron('salasinps3', 'rala123', FUCK_QUERY)
-  do_cron('xalasinps3', 'rala123', WTF_QUERY)
-  do_cron('twotgr2', 'rala123', TWITGOO_QUERY)
+  #do_cron('salasinps3', 'rala123', FUCK_QUERY)
+  #do_cron('xalasinps3', 'rala123', WTF_QUERY)
+  #do_cron('twotgr2', 'rala123', TWITGOO_QUERY)
   #do_cron('ralasinps3', 'rala123', OMG_QUERY)
   #do_cron('onetgr1', 'rala123', TWITPIC_QUERY)
   #do_cron('onecnr1', 'rala123', CANCER_QUERY)
@@ -322,10 +326,105 @@ class Cron(webapp.RequestHandler):
     self.response.out.write('done running cron')
 
 
+##### CODED IN THE PLANE
+class TwitterAccount(db.Model):
+  username = db.StringProperty()
+  password = db.StringProperty()
+  entry_time = db.DateTimeProperty(auto_now_add=True)
+  added_by = db.UserProperty()
+  active = db.BooleanProperty(default=True)
+
+class AccountsPage(webapp.RequestHandler):
+  def get(self):
+    query = db.GqlQuery("SELECT * FROM TwitterAccount ORDER BY added_by")
+    for item in query:
+      self.response.out.write("%s, %s, (%s)<br>" %
+                             (item.username, item.password, item.added_by))
+
+class TwitterAccountForm(djangoforms.ModelForm):
+  class Meta:
+    model = TwitterAccount
+    exclude = ['active',
+               'added_by']
+
+class AddAccount(webapp.RequestHandler):
+  def get(self):
+    self.response.out.write('<html><body>'
+                            '<form method="POST" '
+                            'action="/add">'
+                            '<table>')
+    self.response.out.write(TwitterAccountForm())
+    self.response.out.write('</table>'
+                            '<input type="submit">'
+                            '</form></body></html>')
+
+  def post(self):
+    data = TwitterAccountForm(data=self.request.POST)
+    if data.is_valid():
+      # Save the data, and redirect to the view page
+      entity = data.save(commit=False)
+      entity.added_by = users.get_current_user()
+      entity.put()
+      self.redirect('/accounts.html')
+    else:
+      # Reprint the form
+      self.response.out.write('<html><body>'
+                              '<form method="POST" '
+                              'action="/add">'
+                              '<table>')
+      self.response.out.write(data)
+      self.response.out.write('</table>'
+                              '<input type="submit">'
+                              '</form></body></html>')
+
+
+class EditAccount(webapp.RequestHandler):
+  def get(self):
+    id = int(self.request.get('id'))
+    item = TwitterAccount.get(db.Key.from_path('TwitterAccount', id))
+    self.response.out.write('<html><body>'
+                            '<form method="POST" '
+                            'action="/edit">'
+                            '<table>')
+    self.response.out.write(TwitterAccountForm(instance=item))
+    self.response.out.write('</table>'
+                            '<input type="hidden" name="_id" value="%s">'
+                            '<input type="submit">'
+                            '</form></body></html>' % id)
+
+  def post(self):
+    id = int(self.request.get('_id'))
+    item = Item.get(db.Key.from_path('TwitterAccount', id))
+    data = TwitterAccountForm(data=self.request.POST, instance=item)
+    if data.is_valid():
+        # Save the data, and redirect to the view page
+        entity = data.save(commit=False)
+        entity.added_by = users.get_current_user()
+        entity.put()
+        self.redirect('/accounts.html')
+    else:
+        # Reprint the form
+        self.response.out.write('<html><body>'
+                                '<form method="POST" '
+                                'action="/edit">'
+                                '<table>')
+        self.response.out.write(data)
+        self.response.out.write('</table>'
+                                '<input type="hidden" name="_id" value="%s">'
+                                '<input type="submit">'
+                                '</form></body></html>' % id)
+
+
+#####
+
+
 def main():
   wsgiref.handlers.CGIHandler().run(webapp.WSGIApplication([
       ('/', Home),
       ('/cron', Cron),
+      #('/add', AddAccount),
+      #('/edit', EditAccount),
+      #('/accounts.html', AccountsPage),
       ]))
 
    
