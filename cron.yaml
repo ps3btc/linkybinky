@@ -1,7 +1,7 @@
 cron:
 - description: minutely tweets
   url: /cron
-  schedule: every 3 minutes
+  schedule: every 72 hours
 
 
 

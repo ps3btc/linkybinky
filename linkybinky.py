@@ -180,9 +180,10 @@ def do_search(query):
   except Exception, e:
     s = StringIO.StringIO()
     traceback.print_exc(file=s)
-    logging.info('Oops: %s', s.getvalue())
+    stack_trace = s.getvalue()
+    logging.info('Oops: %s', stack_trace)
+    send_mail(user, query, stack_trace)
     return None
-
 
 def spam(source):
   """Takes as argument the source used to generate the tweet. Returns
@@ -261,12 +262,12 @@ def post(first_user, second_user, api, ads):
   status=api.PostUpdate(tw)
   return random_ad
 
-def send_mail(user, query):
+def send_mail(user, query, stack_trace):
   logging.error('problem account account: %s query %s', user, query)
   mail.send_mail(sender="hareesh.nagarajan@gmail.com",
                  to="hxn <hareesh.nagarajan@gmail.com>",
                  subject="linkybinky ERROR %s %s" % (user, query),
-                 body="problem!")
+                 body=stack_trace)
 
 def do_cron(user, pw, query):
   try:
@@ -300,11 +301,14 @@ def do_cron(user, pw, query):
         post(first_user, second_user, api, CANCER_ADS)
       else:
         logging.error('no users returned')
-  except:
-    send_mail(user, query)
+  except Exception, e:
+      s = StringIO.StringIO()
+      traceback.print_exc(file=s)
+      logging.info('Oops: %s', s.getvalue())        
 
 def wrap_cron():
   #do_cron('nwhat187', 'x167hd8w', NIGGA_QUERY)
+  # THANKS ASSHOLE FOR STEALING MY PASSWORD!!
   do_cron('smithlakesha76', 'x167hd8w', NIGGA_QUERY)
   #do_cron('salasinps3', 'rala123', FUCK_QUERY)
   #do_cron('xalasinps3', 'rala123', WTF_QUERY)
